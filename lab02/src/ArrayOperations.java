@@ -9,6 +9,10 @@ public class ArrayOperations {
         if (pos < 0 || pos >= values.length) {
             return;
         }
+        for (int i = pos; i < values.length - 1; i++) {
+            values[i] = values[i + 1];
+        }
+        values[values.length - 1] = 0;
         // TODO: fill out this function
     }
 
@@ -21,16 +25,27 @@ public class ArrayOperations {
         if (pos < 0 || pos >= values.length) {
             return;
         }
+        for (int i = values.length - 1; i > pos; i--) {
+            values[i] = values[i - 1];
+        }
+        values[pos] = newInt;
         // TODO: fill out this function
     }
 
-    /** 
+    /**
      * Returns a new array consisting of the elements of A followed by the
-     *  the elements of B. 
+     * the elements of B.
      */
     public static int[] catenate(int[] A, int[] B) {
+        int[] newArray = new int[A.length + B.length];
+        for (int i = 0; i < A.length; i++) {
+            newArray[i] = A[i];
+        }
+        for (int i = 0; i < B.length; i++) {
+            newArray[A.length + i] = B[i];
+        }
         // TODO: fill out this function
-        return null;
+        return newArray;
     }
 
 }
