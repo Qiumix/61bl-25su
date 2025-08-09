@@ -4,11 +4,14 @@ import java.util.ArrayList;
  * DO NOT EDIT.
  * @author Crystal Wang
  * */
-abstract class Triangle {
+public class Triangle {
+     public Triangle() {
+
+     }
      /** Given triangle side lengths side1, side2, and side3, return whether or not they could form a valid triangle
       * defined by the triangle inequality: any the sum of any two sides must be > the third side. */
      private static boolean sidesCheckHelper(int side1, int side2, int side3) {
-          return side1 + side2 >= side3;
+          return side1 + side2 > side3;
      }
      public boolean sidesFormTriangle(int side1, int side2, int side3) {
           return sidesCheckHelper(side1, side2, side3) && sidesCheckHelper(side2, side3, side1) && sidesCheckHelper(side3, side2, side1);
@@ -31,10 +34,10 @@ abstract class Triangle {
           allType.add("Isosceles");
           allType.add("Scalene");
           if (side1 == side2 && side1 == side3) {
-               return allType.get(2);
+               return allType.get(0);
           }
           if (side1 != side2 && side1 != side3 && side2 != side3) {
-               return allType.get(0);
+               return allType.get(2);
           }
           return allType.get(1);
      }
