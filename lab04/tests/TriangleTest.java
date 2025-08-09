@@ -4,8 +4,8 @@ import static com.google.common.truth.Truth.assertWithMessage;
 public class TriangleTest {
 
     /** For autograding purposes; do not change this line. */
-    public Triangle getNewTriangle() {
-        return new Triangle();
+    Triangle getNewTriangle() {
+        return new MyTriangle();
     }
 
     /* ***** TESTS ***** */
