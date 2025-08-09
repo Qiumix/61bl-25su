@@ -51,8 +51,6 @@ public class Account {
             boolean enough = parentAccount.withdraw(insufficientAmount);
             if (enough) {
                 this.balance = 0;
-            } else {
-                System.out.println("insufficient fonds.");
             }
             return enough;
         } else {
