@@ -1,3 +1,8 @@
+import edu.princeton.cs.algs4.In;
+
+import java.util.EnumMap;
+import java.util.Enumeration;
+
 /** A data structure to represent a Linked List of Integers.
  * Each IntList represents one node in the overall Linked List.
  */
@@ -47,10 +52,23 @@ public class IntList {
      * @return The element at [position]
      */
     public int get(int position) {
+        if (position == 0) {
+            return this.item;
+        }
+        if (next == null) {
+            throw new IllegalArgumentException();
+        }
+        return next.get(position - 1);
         // TODO: YOUR CODE HERE
-        return -1;
     }
 
+    private static StringBuilder toStrRecHelper(StringBuilder curStr, IntList curNode) {
+        if (curNode == null) {
+            return curStr;
+        }
+        curStr.append(curNode.item + (curNode.next == null ? "" : " "));
+        return toStrRecHelper(curStr, curNode.next);
+    }
     /**
      * Returns the string representation of the list. For the list (1, 2, 3),
      * returns "1 2 3".
@@ -58,8 +76,8 @@ public class IntList {
      * @return The String representation of the list.
      */
     public String toString() {
+        return toStrRecHelper(new StringBuilder(), this).toString();
         // TODO: YOUR CODE HERE
-        return null;
     }
 
     /**
@@ -81,8 +99,18 @@ public class IntList {
             return false;
         }
         if (obj instanceof IntList otherList) {
+            IntList pointer = this;
+            while (pointer != null && otherList != null) {
+                if (pointer.item != otherList.item) {
+                    return false;
+                }
+                pointer = pointer.next;
+                otherList = otherList.next;
+            }
+            if (pointer == null && otherList == null) {
+                return true;
+            }
             // TODO: your code here
-
         }
         return false;
     }
@@ -93,6 +121,14 @@ public class IntList {
      * @param value, the int to be added.
      */
     public void add(int value) {
+        if (this == null) {
+            return;
+        }
+        IntList pointer = this;
+        while (pointer.next != null) {
+            pointer = pointer.next;
+        }
+        pointer.next = new IntList(value);
         // TODO: YOUR CODE HERE
     }
 
@@ -103,7 +139,13 @@ public class IntList {
      */
     public int smallest() {
         // TODO: YOUR CODE HERE
-        return -1;
+        int min = this.item;
+        IntList pointer = this;
+        while (pointer != null) {
+            min = pointer.item < min ? pointer.item : min;
+            pointer = pointer.next;
+        }
+        return min;
     }
 
     /**
@@ -113,7 +155,16 @@ public class IntList {
      */
     public int squaredSum() {
         // TODO: YOUR CODE HERE
-        return -1;
+        if (this == null) {
+            return 0;
+        }
+        int sum = 0;
+        IntList pointer = this;
+        while (pointer != null) {
+            sum += pointer.item * pointer.item;
+            pointer = pointer.next;
+        }
+        return sum;
     }
 
     /**
@@ -171,7 +222,27 @@ public class IntList {
      */
     public static IntList catenate(IntList A, IntList B) {
         // TODO: YOUR CODE HERE
-        return null;
+        if (A == null && B == null) {
+            return null;
+        }
+        if (A == null) {
+            IntList temp = new IntList(B.item);
+            IntList pointer = B.next;
+            while (pointer != null) {
+                temp.add(pointer.item);
+            }
+            return temp;
+        }
+        IntList temp = new IntList(A.item);
+        IntList pointer = A.next;
+        while (pointer != null) {
+            temp.add(pointer.item);
+        }
+        pointer = B;
+        while (pointer != null) {
+            temp.add(pointer.item);
+        }
+        return temp;
     }
 
     /**
@@ -184,6 +255,14 @@ public class IntList {
      */
     public static IntList dcatenate(IntList A, IntList B) {
         // TODO: YOUR CODE HERE
-        return null;
+        if (A == null) {
+            return B;
+        }
+        IntList pointer = A;
+        while (pointer.next != null) {
+            pointer = pointer.next;
+        }
+        pointer.next = B;
+        return A;
     }
 }
