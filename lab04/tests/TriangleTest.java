@@ -44,13 +44,13 @@ public class TriangleTest {
         Triangle triangle = getNewTriangle();
         assertWithMessage("actual is not expected")
                 .that(triangle.pointsFormTriangle(1, 1, 1, 1, 1, 1))
+                .isEqualTo(false);
+        assertWithMessage("actual is not expected")
+                .that(triangle.pointsFormTriangle(1, 1, 0, 0, -1, -1))
+                .isEqualTo(false);
+        assertWithMessage("actual is not expected")
+                .that(triangle.pointsFormTriangle(1, 1, 0, 0, 1, -1))
                 .isEqualTo(true);
-        assertWithMessage("actual is not expected")
-                .that(triangle.pointsFormTriangle(1, 1, 0, 0, -1, -1))
-                .isEqualTo(false);
-        assertWithMessage("actual is not expected")
-                .that(triangle.pointsFormTriangle(1, 1, 0, 0, -1, -1))
-                .isEqualTo(false);
     }
 
     @Test

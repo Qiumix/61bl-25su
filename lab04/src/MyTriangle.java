@@ -7,6 +7,15 @@ public class MyTriangle extends Triangle {
     /** Given triangle side lengths side1, side2, and side3, return whether or not they could form a valid triangle
      * defined by the triangle inequality: any the sum of any two sides must be > the third side. */
     private static boolean sidesCheckHelper(int side1, int side2, int side3) {
+        if (side1 == 0) {
+            return false;
+        }
+        return side1 + side2 > side3;
+    }
+    private static boolean sidesCheckHelper(double side1, double side2, double side3) {
+        if (Math.abs(side1) < 0.001) {
+            return false;
+        }
         return side1 + side2 > side3;
     }
     public boolean sidesFormTriangle(int side1, int side2, int side3) {
@@ -15,10 +24,10 @@ public class MyTriangle extends Triangle {
 
     /** Given points (x1, y1), (x2, y2), and (x3, y3), return whether they could form a valid triangle in a 2-D plane. */
     public boolean pointsFormTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
-        int side1 = (int)Math.pow(x1 * x1 + y1 * y1, 0.5);
-        int side2 = (int)Math.pow(x2 * x2 + y2 * y2, 0.5);
-        int side3 = (int)Math.pow(x3 * x3 + y3 * y3, 0.5);
-        return sidesFormTriangle(side1, side2, side3);
+        double side1 = Math.pow(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)), 0.5);
+        double side2 = Math.pow(((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2)), 0.5);
+        double side3 = Math.pow(((x1 - x3) * (x1 - x3) + (y1 - y3) * (y1 - y3)), 0.5);
+        return sidesCheckHelper(side1, side2, side3);
     }
 
     /** Given triangle side lengths side1, side2, and side3, return whether the triangle is
