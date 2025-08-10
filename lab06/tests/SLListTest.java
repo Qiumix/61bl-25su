@@ -26,6 +26,16 @@ public class SLListTest {
 
     @Test
     public void testSLListReverse() {
+        SLList test1 = SLList.of(1, 3, 5);
+        test1.reverse();
+        assertWithMessage("test1 should be equal to { 5, 3, 1 }")
+                .that(test1.equals(SLList.of(5 ,3, 1)))
+                .isEqualTo(true);
+        SLList test2 = SLList.of();
+        test2.reverse();
+        assertWithMessage("test2 should be equal to {}")
+                .that(test2.equals(SLList.of()))
+                .isEqualTo(true);
         // TODO: Add tests
     }
 }

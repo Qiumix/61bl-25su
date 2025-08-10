@@ -1,3 +1,5 @@
+import java.awt.*;
+
 /**
  * An SLList is a list of integers, which encapsulates the
  * naked linked list structure.
@@ -115,10 +117,31 @@ public class SLList {
     /** Adds x to the list at the specified index. */
     public void add(int index, int x) {
         // TODO: YOUR CODE HERE
+        int count = index;
+        if (index > size()) {
+            count = size;
+        }
+        IntListNode targetPre = sentinel;
+        while (count-- != 0) {
+            targetPre = targetPre.next;
+        }
+        IntListNode targetNext = targetPre.next;
+        targetPre.next = new IntListNode(x, targetNext);
+        size++;
     }
 
     /** Destructively reverses this list. */
     public void reverse() {
+        if (size() == 0) {
+            return;
+        }
+        IntListNode pointer = sentinel.next;
+        IntListNode newLL = new IntListNode(pointer.item, sentinel);
+        while (pointer.next != null && pointer.next != sentinel) {
+            pointer = pointer.next;
+            newLL = new IntListNode(pointer.item, newLL);
+        }
+        sentinel.next = newLL;
         // TODO: YOUR CODE HERE
     }
 }
