@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -59,12 +60,12 @@ public class ListSet implements SimpleSet {
     /** Returns an array containing all of the elements in this collection. */
     @Override
     public int[] toIntArray() {
-        Object[] temp = elems.toArray();
-        int[] all = new int[temp.length];
-        for (int i = 0; i < temp.length; i++) {
-            all[i] = (int)all[i];
+        Iterator all = elems.iterator();
+        int[] arr = new int[elems.size()];
+        int count = 0;
+        while (all.hasNext()) {
+            arr[count++] = (int)all.next();
         }
-        // TODO - use a for loop!
-        return all;
+        return arr;
     }
 }

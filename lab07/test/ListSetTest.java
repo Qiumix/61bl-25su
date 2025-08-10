@@ -1,4 +1,8 @@
 import org.junit.Test;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.IterableResult;
+
+import java.util.Iterator;
+
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth.assertThat;
 
@@ -24,4 +28,26 @@ public class ListSetTest {
         assertWithMessage("Size is not zero after removing all elements").that(aSet.size()).isEqualTo(0);
     }
 
+    @Test
+    public void testArray() {
+        ListSet aSet = new ListSet();
+        for (int i = 0; i < 100; i++) {
+            aSet.add(i);
+        }
+        int[] arr2 = new int[100];
+        int[] arr = new int[100];
+        for (int i = 0; i < 100; i++) {
+            arr[i] = i;
+        }
+        Iterator iterator = aSet.elems.iterator();
+        int count = 0;
+        while (iterator.hasNext()) {
+            arr2[count++] = (int)iterator.next();
+        }
+        for (int i = 0; i < 100; i++) {
+            assertWithMessage("should be equal")
+                    .that(arr[i])
+                    .isEqualTo(arr2[i]);
+        }
+    }
 }
