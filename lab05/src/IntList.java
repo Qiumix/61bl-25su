@@ -55,7 +55,7 @@ public class IntList {
         if (position == 0) {
             return this.item;
         }
-        if (next == null) {
+        if (next == null || position < 0) {
             throw new IllegalArgumentException();
         }
         return next.get(position - 1);
@@ -121,9 +121,6 @@ public class IntList {
      * @param value, the int to be added.
      */
     public void add(int value) {
-        if (this == null) {
-            return;
-        }
         IntList pointer = this;
         while (pointer.next != null) {
             pointer = pointer.next;
@@ -140,7 +137,7 @@ public class IntList {
     public int smallest() {
         // TODO: YOUR CODE HERE
         int min = this.item;
-        IntList pointer = this;
+        IntList pointer = this.next;
         while (pointer != null) {
             min = pointer.item < min ? pointer.item : min;
             pointer = pointer.next;
@@ -155,9 +152,6 @@ public class IntList {
      */
     public int squaredSum() {
         // TODO: YOUR CODE HERE
-        if (this == null) {
-            return 0;
-        }
         int sum = 0;
         IntList pointer = this;
         while (pointer != null) {
@@ -230,6 +224,7 @@ public class IntList {
             IntList pointer = B.next;
             while (pointer != null) {
                 temp.add(pointer.item);
+                pointer = pointer.next;
             }
             return temp;
         }
@@ -237,10 +232,12 @@ public class IntList {
         IntList pointer = A.next;
         while (pointer != null) {
             temp.add(pointer.item);
+            pointer = pointer.next;
         }
         pointer = B;
         while (pointer != null) {
             temp.add(pointer.item);
+            pointer = pointer.next;
         }
         return temp;
     }

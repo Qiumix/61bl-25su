@@ -154,10 +154,37 @@ public class IntListTest {
     @Test
     public void testCatenate() {
         // TODO: Add tests
+        IntList A = IntList.of(1, 2 ,3, 4);
+        IntList B = IntList.of(5, 6 ,7, 8);
+        IntList AB = IntList.of(1, 2, 3, 4, 5, 6, 7, 8);
+        assertWithMessage("IntList should be equal!")
+                .that(AB.equals(IntList.catenate(A, B)))
+                .isEqualTo(true);
+        assertWithMessage("IntList should be equal!")
+                .that(IntList.of(1, 2 ,3, 4).equals(A))
+                .isEqualTo(true);
+        assertWithMessage("IntList should be equal!")
+                .that(IntList.of(5, 6 ,7, 8).equals(B))
+                .isEqualTo(true);
+        assertWithMessage("IntList should be equal!")
+                .that(IntList.of(5, 6 ,7, 8).equals(IntList.catenate(IntList.of(), B)))
+                .isEqualTo(true);
+        assertWithMessage("IntList should be equal!")
+                .that(IntList.of(1, 2 ,3, 4).equals(IntList.catenate(IntList.of(), A)))
+                .isEqualTo(true);
     }
 
     @Test
     public void testDCatenate() {
         // TODO: Add test
+        IntList A = IntList.of(1, 2 ,3, 4);
+        IntList B = IntList.of(5, 6 ,7, 8);
+        IntList AB = IntList.of(1, 2, 3, 4, 5, 6, 7, 8);
+        assertWithMessage("IntList should be equal!")
+                .that(AB.equals(IntList.dcatenate(A, B)))
+                .isEqualTo(true);
+        assertWithMessage("IntList should be equal!")
+                .that(AB.equals(A))
+                .isEqualTo(true);
     }
 }
