@@ -1,10 +1,12 @@
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * An AList is a list of integers. Like SLList, it also hides the terrible
  * truth of the nakedness within, but uses an array as its base.
  */
-public class AList<Item> {
+public class AList<Item> implements Iterable<Item> {
 
     /* TODO: Make AList able to be iterated over. Add new nested classes as necessary.
     *   Your code will likely not compile on the autograder unless you implement this section.*/
@@ -77,6 +79,58 @@ public class AList<Item> {
     /** Returns the underlying items array. */
     private Item[] getItems() {
         return items;
+    }
+
+
+    private class AListIterator implements Iterator<Item> {
+        private int count;
+        private int size;
+        private Item[] iterItems;
+        public AListIterator() {
+            size = size();
+            count = 0;
+            iterItems = (Item[]) new Object[items.length];
+            for (int i = 0; i < items.length; i++) {
+                iterItems[i] = items[i];
+            }
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return size - count != 0;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Item next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return iterItems[count++];
+        }
+
+    }
+
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
+    @Override
+    public Iterator<Item> iterator() {
+        return new AListIterator();
     }
 
 }
