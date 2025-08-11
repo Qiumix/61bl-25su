@@ -1,3 +1,6 @@
+import edu.princeton.cs.algs4.In;
+import org.antlr.v4.runtime.tree.Tree;
+import org.antlr.v4.runtime.tree.Trees;
 import org.junit.Test;
 import src.AmoebaFamily;
 
@@ -99,5 +102,4 @@ public class AmoebaTest {
         }
         assertThat(i).isEqualTo(5);
     }
-
 }

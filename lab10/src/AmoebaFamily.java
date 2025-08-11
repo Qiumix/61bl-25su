@@ -188,8 +188,10 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
         /* AmoebaBFSIterator constructor. Sets up all of the initial information
            for the AmoebaBFSIterator. */
         public AmoebaBFSIterator() {
-            allMember = new ArrayList<>();
-            addMember();
+            if (root != null) {
+                allMember = new ArrayList<>();
+                addMember();
+            }
         }
 
         private void addMember() {
@@ -208,6 +210,19 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
             addMember(end + 1, allMember.size() - 1);
         }
 
+        private void addMemberNoR() {
+            int start = 0, end = 0;
+            while (start <= end) {
+                for (int i = start; i <= end; i++) {
+                    for (Amoeba child : allMember.get(i).getChildren()) {
+                        allMember.addLast(child);
+                    }
+                }
+                start = end + 1;
+                end = allMember.size() - 1;
+            }
+        }
+
         /* Returns true if there is a next element to return. */
         public boolean hasNext() {
             return !allMember.isEmpty();
@@ -216,7 +231,7 @@ public class AmoebaFamily implements Iterable<AmoebaFamily.Amoeba> {
         /* Returns the next element. */
         public Amoeba next() {
             if (!hasNext()) {
-                return null;
+                throw new NoSuchElementException();
             }
             return allMember.removeFirst();
         }
