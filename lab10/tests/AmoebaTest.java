@@ -1,6 +1,8 @@
 import org.junit.Test;
 import src.AmoebaFamily;
 
+import java.util.Iterator;
+
 import static com.google.common.truth.Truth.assertThat;
 
 public class AmoebaTest {
@@ -74,6 +76,7 @@ public class AmoebaTest {
         String[] expected = { "(._.)", "(._. )", "( ._.)", ":/", "<_<", ">_>",
                 ">_<", ":o" };
         int i = 0;
+        Iterator<AmoebaFamily.Amoeba> iterator = family.iterator();
         for (AmoebaFamily.Amoeba a : family) {
             assertThat(a.toString()).isEqualTo(expected[i]);
             i++;
