@@ -7,6 +7,22 @@ public class BinarySearchTreeTest {
     // TODO: add some of your own tests here to test your implementation!
 
     @Test
+    public void addTest() {
+        BinarySearchTree<String> x = new BinarySearchTree<>();
+        x.add("hi" + 1);
+        for (int i = 1; i < 100; i++) {
+            assertWithMessage("x shouldn't contain hi" + (i - 1))
+                    .that(x.contains("hi" + (i - 1)))
+                    .isEqualTo(false);
+            assertWithMessage("x should contain hi" + i)
+                    .that(x.contains("hi" + i))
+                    .isEqualTo(true);
+            x.add("hi" + (i + 1));
+            x.delete("hi" + i);
+        }
+    }
+
+    @Test
     public void containsTest() {
         BinarySearchTree<Integer> x = new BinarySearchTree();
         assertWithMessage("BST should not contain anything immediately after instantiation").that(x.contains(2)).isFalse();
