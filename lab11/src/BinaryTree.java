@@ -49,7 +49,6 @@ public class BinaryTree<T> {
 
     /** Optional constructor, see optional exercise in lab (or last week's theoretical lab). */
     public BinaryTree(ArrayList<T> pre, ArrayList<T> in) {
-        root = new TreeNode<T>(pre.getFirst());
     }
 
     private TreeNode<T> buildHelper(ArrayList<T> pre, ArrayList<T> in, int preIndex, int inIndex) {
