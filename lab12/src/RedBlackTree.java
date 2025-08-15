@@ -47,10 +47,19 @@ public class RedBlackTree<T extends Comparable<T>> {
 
         if (r.getItemCount() == 1) {
             // TODO: Replace with code to create a 2-node equivalent
-            return null;
+            RBTreeNode<T> temp = new RBTreeNode<>(true, r.getItemAt(0));
+            temp.left = buildRedBlackTree(r.getChildAt(0));
+            temp.right = buildRedBlackTree(r.getChildAt(1));
+            return temp;
         } else {
+            RBTreeNode<T> top = new RBTreeNode<>(true, r.getItemAt(1));
+            RBTreeNode<T> bottom = new RBTreeNode<>(false, r.getItemAt(0));
+            top.right = buildRedBlackTree(r.getChildAt(2));
+            top.left = bottom;
+            bottom.left = buildRedBlackTree(r.getChildAt(0));
+            bottom.right = buildRedBlackTree(r.getChildAt(1));
             // TODO: Replace with code to create a 3-node equivalent
-            return null;
+            return top;
         }
     }
 
@@ -61,6 +70,12 @@ public class RedBlackTree<T extends Comparable<T>> {
      */
     void flipColors(RBTreeNode<T> node) {
         // TODO: YOUR CODE HERE
+        if (node.right == null || node.left == null) {
+            return;
+        }
+        node.isBlack = !node.isBlack;
+        node.left.isBlack = !node.left.isBlack;
+        node.right.isBlack = !node.right.isBlack;
     }
 
     /**
@@ -72,7 +87,16 @@ public class RedBlackTree<T extends Comparable<T>> {
      */
     RBTreeNode<T> rotateRight(RBTreeNode<T> node) {
         // TODO: YOUR CODE HERE
-        return null;
+        if (node.left == null) {
+            return node;
+        }
+        RBTreeNode<T> left = node.right;
+        RBTreeNode<T> LR = left.right;
+        left.right = node;
+        node.left = LR;
+        left.isBlack = true;
+        node.isBlack = false;
+        return left;
     }
 
     /**
@@ -84,7 +108,16 @@ public class RedBlackTree<T extends Comparable<T>> {
      */
     RBTreeNode<T> rotateLeft(RBTreeNode<T> node) {
         // TODO: YOUR CODE HERE
-        return null;
+        if (node.right == null) {
+            return node;
+        }
+        RBTreeNode<T> right = node.right;
+        RBTreeNode<T> RL = right.right;
+        right.left = node;
+        node.right = RL;
+        right.isBlack = true;
+        node.isBlack = false;
+        return right;
     }
 
     /**
@@ -106,22 +139,35 @@ public class RedBlackTree<T extends Comparable<T>> {
      */
     private RBTreeNode<T> insert(RBTreeNode<T> node, T item) {
         // TODO: Insert (return) new red leaf node.
-
-
+        if (node == null) {
+            return new RBTreeNode<>(false, item);
+        }
         // TODO: Handle normal binary search tree insertion. The below line may help.
         int comp = item.compareTo(node.item);
-
-
+        if (comp == 0) {
+            return node;
+        } else if (comp > 0) {
+            node.right = insert(node.right, item);
+        } else {
+            node.left = insert(node.left, item);
+        }
         // TODO: Rotate left operation (handle "middle of three" and "right-leaning red" structures)
-
-
+        boolean rightLeaning = node.left == null && node.right != null; // && !node.right.isBlack;
+        boolean middleOfThree = node.isBlack && node.right == null && (node.left != null && !node.left.isBlack) && (node.left.right != null && !node.left.right.isBlack);
+        if (rightLeaning || middleOfThree) {
+            node = rotateLeft(node);
+        }
         // TODO: Rotate right operation (handle "smallest of three" structure)
-
-
+        boolean smallestOfThree = node.isBlack && node.right == null && (node.left != null && !node.left.isBlack) && (node.left.left != null && !node.left.left.isBlack);
+        if (smallestOfThree) {
+            node = rotateRight(node);
+        }
         // TODO: Color flip (handle "largest of three" structure)
-
-
-        return null; // TODO: fix this return statement
+        boolean largestOfThree = node.isBlack && (node.left != null && !node.left.isBlack) && (node.right != null && !node.right.isBlack);
+        if (largestOfThree) {
+            flipColors(node);
+        }
+        return node; // TODO: fix this return statement
     }
 
     /**
