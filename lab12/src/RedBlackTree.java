@@ -10,14 +10,18 @@ public class RedBlackTree<T extends Comparable<T>> {
         RBTreeNode<T> left;
         RBTreeNode<T> right;
 
-        /* Creates a RBTreeNode with item ITEM and color depending on ISBLACK
-           value. */
+        /*
+         * Creates a RBTreeNode with item ITEM and color depending on ISBLACK
+         * value.
+         */
         RBTreeNode(boolean isBlack, T item) {
             this(isBlack, item, null, null);
         }
 
-        /* Creates a RBTreeNode with item ITEM, color depending on ISBLACK
-           value, left child LEFT, and right child RIGHT. */
+        /*
+         * Creates a RBTreeNode with item ITEM, color depending on ISBLACK
+         * value, left child LEFT, and right child RIGHT.
+         */
         RBTreeNode(boolean isBlack, T item, RBTreeNode<T> left,
                    RBTreeNode<T> right) {
             this.isBlack = isBlack;
@@ -38,8 +42,10 @@ public class RedBlackTree<T extends Comparable<T>> {
         root = buildRedBlackTree(ttTreeRoot);
     }
 
-    /* Builds a RedBlackTree that has isometry with given 2-3 tree rooted at
-       given node R, and returns the root node. */
+    /*
+     * Builds a RedBlackTree that has isometry with given 2-3 tree rooted at
+     * given node R, and returns the root node.
+     */
     RBTreeNode<T> buildRedBlackTree(Node<T> r) {
         if (r == null) {
             return null;
@@ -66,6 +72,7 @@ public class RedBlackTree<T extends Comparable<T>> {
     /**
      * Flips the color of node and its children. Assume that NODE has both left
      * and right children
+     * 
      * @param node
      */
     void flipColors(RBTreeNode<T> node) {
@@ -82,6 +89,7 @@ public class RedBlackTree<T extends Comparable<T>> {
      * Rotates the given node to the right. Returns the new root node of
      * this subtree. For this implementation, make sure to swap the colors
      * of the new root and the old root!
+     * 
      * @param node
      * @return
      */
@@ -90,12 +98,13 @@ public class RedBlackTree<T extends Comparable<T>> {
         if (node.left == null) {
             return node;
         }
-        RBTreeNode<T> left = node.right;
+        RBTreeNode<T> left = node.left;
         RBTreeNode<T> LR = left.right;
         left.right = node;
         node.left = LR;
-        left.isBlack = true;
-        node.isBlack = false;
+        boolean nodeColor = node.isBlack;
+        node.isBlack = left.isBlack;
+        left.isBlack = nodeColor;
         return left;
     }
 
@@ -103,6 +112,7 @@ public class RedBlackTree<T extends Comparable<T>> {
      * Rotates the given node to the left. Returns the new root node of
      * this subtree. For this implementation, make sure to swap the colors
      * of the new root and the old root!
+     * 
      * @param node
      * @return
      */
@@ -112,16 +122,18 @@ public class RedBlackTree<T extends Comparable<T>> {
             return node;
         }
         RBTreeNode<T> right = node.right;
-        RBTreeNode<T> RL = right.right;
+        RBTreeNode<T> RL = right.left;
         right.left = node;
         node.right = RL;
-        right.isBlack = true;
-        node.isBlack = false;
+        boolean nodeColor = node.isBlack;
+        node.isBlack = right.isBlack;
+        right.isBlack = nodeColor;
         return right;
     }
 
     /**
      * Inserts the item into the Red Black Tree. Colors the root of the tree black.
+     * 
      * @param item
      */
     public void insert(T item) {
@@ -130,9 +142,12 @@ public class RedBlackTree<T extends Comparable<T>> {
     }
 
     /**
-     * Inserts the given node into this Red Black Tree. Comments have been provided to help break
-     * down the problem. For each case, consider the scenario needed to perform those operations.
+     * Inserts the given node into this Red Black Tree. Comments have been provided
+     * to help break
+     * down the problem. For each case, consider the scenario needed to perform
+     * those operations.
      * Make sure to also review the other methods in this class!
+     * 
      * @param node
      * @param item
      * @return
@@ -151,19 +166,20 @@ public class RedBlackTree<T extends Comparable<T>> {
         } else {
             node.left = insert(node.left, item);
         }
-        // TODO: Rotate left operation (handle "middle of three" and "right-leaning red" structures)
-        boolean rightLeaning = node.left == null && node.right != null; // && !node.right.isBlack;
-        boolean middleOfThree = node.isBlack && node.right == null && (node.left != null && !node.left.isBlack) && (node.left.right != null && !node.left.right.isBlack);
-        if (rightLeaning || middleOfThree) {
+        // TODO: Rotate left operation (handle "middle of three" and "right-leaning red"
+        // structures)
+        boolean middleOfThree = isRed(node.left) && isRed(node.left.right);
+        boolean rightLeaning = isRed(node.right) && !isRed(node.left);
+        if (middleOfThree || rightLeaning) {
             node = rotateLeft(node);
         }
         // TODO: Rotate right operation (handle "smallest of three" structure)
-        boolean smallestOfThree = node.isBlack && node.right == null && (node.left != null && !node.left.isBlack) && (node.left.left != null && !node.left.left.isBlack);
+        boolean smallestOfThree = isRed(node.left) && isRed(node.left.left);
         if (smallestOfThree) {
             node = rotateRight(node);
         }
         // TODO: Color flip (handle "largest of three" structure)
-        boolean largestOfThree = node.isBlack && (node.left != null && !node.left.isBlack) && (node.right != null && !node.right.isBlack);
+        boolean largestOfThree = isRed(node.right) && isRed(node.left) && node.isBlack;
         if (largestOfThree) {
             flipColors(node);
         }
@@ -171,8 +187,10 @@ public class RedBlackTree<T extends Comparable<T>> {
     }
 
     /**
-     * Helper method that returns whether the given node is red. Null nodes (children or leaf
+     * Helper method that returns whether the given node is red. Null nodes
+     * (children or leaf
      * nodes) are automatically considered black.
+     * 
      * @param node
      * @return
      */
