@@ -1,4 +1,9 @@
 /* A PriorityQueue class that uses a min heap to maintain ordering. */
+
+import org.checkerframework.checker.units.qual.h;
+
+import net.sf.saxon.tree.linked.ProcInstImpl;
+
 public class MinHeapPQ<T> implements PriorityQueue<T> {
 
     /* The heap backing our MinHeapPQ. */
@@ -9,41 +14,61 @@ public class MinHeapPQ<T> implements PriorityQueue<T> {
         heap = new MinHeap<PriorityItem>();
     }
 
-    /* Returns the item with the smallest priority value, but does not remove it
-       from the MinHeapPQ. */
+    /*
+     * Returns the item with the smallest priority value, but does not remove it
+     * from the MinHeapPQ.
+     */
     public T peek() {
-        // TODO: YOUR CODE HERE
-        return null;
+        return heap.findMin().item;
+        // [x]: YOUR CODE HERE
     }
 
-    /* Inserts ITEM with the priority value PRIORITYVALUE into the MinHeapPQ. If
-       ITEM is already in the MinHeapPQ, throw an IllegalArgumentException. */
+    /*
+     * Inserts ITEM with the priority value PRIORITYVALUE into the MinHeapPQ. If
+     * ITEM is already in the MinHeapPQ, throw an IllegalArgumentException.
+     */
     public void insert(T item, double priorityValue) {
-        // TODO: YOUR CODE HERE
+        PriorityItem temp = new PriorityItem(item, priorityValue);
+        if (heap.contains(temp)) {
+            throw new IllegalArgumentException();
+        }
+        heap.insert(temp);
+        // [x]: YOUR CODE HERE
     }
 
-    /* Returns the item with the highest priority (smallest priority value), and
-       removes it from the MinHeapPQ. If there is nothing in the queue, return null.*/
+    /*
+     * Returns the item with the highest priority (smallest priority value), and
+     * removes it from the MinHeapPQ. If there is nothing in the queue, return null.
+     */
     public T poll() {
-        // TODO: YOUR CODE HERE
-        return null;
+        // [x]: YOUR CODE HERE
+        PriorityItem temp = heap.removeMin();
+        if (temp == null) {
+            return null;
+        }
+        return temp.item;
     }
 
-    /* Changes the PriorityItem with item ITEM to have priority value
-       PRIORITYVALUE. Assume the items in the MinHeapPQ are all unique. If ITEM
-       is not in the MinHeapPQ, throw a NoSuchElementException. */
+    /*
+     * Changes the PriorityItem with item ITEM to have priority value
+     * PRIORITYVALUE. Assume the items in the MinHeapPQ are all unique. If ITEM
+     * is not in the MinHeapPQ, throw a NoSuchElementException.
+     */
     public void changePriority(T item, double priorityValue) {
         // TODO: OPTIONAL
+        heap.update(new PriorityItem(item, priorityValue));
     }
 
     /* Returns the number of items in the MinHeapPQ. */
     public int size() {
-        // TODO: YOUR CODE HERE
-        return 0;
+        // [x]: YOUR CODE HERE
+        return heap.size();
     }
 
-    /* Returns true if ITEM is stored in our MinHeapPQ. Note: Any priority value
-       for this dummy PriorityItem would work. */
+    /*
+     * Returns true if ITEM is stored in our MinHeapPQ. Note: Any priority value
+     * for this dummy PriorityItem would work.
+     */
     public boolean contains(T item) {
         return heap.contains(new PriorityItem(item, 0));
     }
@@ -53,10 +78,12 @@ public class MinHeapPQ<T> implements PriorityQueue<T> {
         return heap.toString();
     }
 
-    /* A wrapper class that stores items and their associated priorities.
-
-       Note: This class has a natural ordering that is inconsistent with
-       equals. */
+    /*
+     * A wrapper class that stores items and their associated priorities.
+     * 
+     * Note: This class has a natural ordering that is inconsistent with
+     * equals.
+     */
     public class PriorityItem implements Comparable<PriorityItem> {
         private T item;
         private double priorityValue;
