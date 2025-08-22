@@ -142,9 +142,7 @@ public class MinHeap<E extends Comparable<E>> {
                 swap(index, indexL);
                 return;
             }
-            int cmpL = self.compareTo(left);
-            int cmpR = self.compareTo(right);
-            if (cmpL > cmpR) {
+            if (left.compareTo(right) > 0) {
                 swap(index, indexR);
                 index = indexR;
             } else {
@@ -175,8 +173,7 @@ public class MinHeap<E extends Comparable<E>> {
             throw new IllegalArgumentException();
         }
         setElement(++size, element);
-        int curIndex = size;
-        bubbleUp(curIndex);
+        bubbleUp(size());
         // [x]: YOUR CODE HERE
     }
 
